@@ -1,6 +1,6 @@
 # server-side
 ```
-java -jar  -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0  ~/Desktop/ejb-remote-server-side-bootable.jar 
+java -jar  -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0   ejb-remote-server-side-bootable.jar 
 
 ```
 # client-side
@@ -17,6 +17,8 @@ and run the client application with
 
 ```
 java -jar -Dhost=192.168.18.30  -Dhttp=true  target/ejb-remote-client-jar-with-dependencies.jar
+
+java -jar -Dhost=192.168.18.30 -Dremote.connection.default.username=admin  -Dremote.connection.default.password=123456 -Dhttp=true  target/ejb-remote-client-jar-with-dependencies.jar
 ```
 # Telemetry In GKE 
 
