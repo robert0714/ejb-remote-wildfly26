@@ -91,7 +91,9 @@
                         <layer>web-server</layer> 
                    <!--     <layer>elytron</layer>-->
                     </layers>
- 
+                    <cloud>
+                        <type>kubernetes</type>
+                    </cloud>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
                     </excluded-layers>

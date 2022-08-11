@@ -18,3 +18,15 @@ and run the client application with
 ```
 java -jar -Dhost=192.168.18.30  -Dhttp=true  target/ejb-remote-client-jar-with-dependencies.jar
 ```
+# Telemetry In GKE 
+
+## Cloud Ops Agent
+* https://cloud.google.com/logging/docs/agent/ops-agent?hl=en
+* https://cloud.google.com/logging/docs/agent/ops-agent?hl=zh-cn
+
+### Wildfly
+* https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/third-party/wildfly
+* https://cloud.google.com/logging/docs/agent/ops-agent/third-party/wildfly?hl=zh-cn
+
+# wildfly bootablr jar doc
+https://docs.wildfly.org/bootablejar/#wildfly_jar_configuring_cloud
