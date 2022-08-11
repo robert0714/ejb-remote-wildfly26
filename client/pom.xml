@@ -58,6 +58,7 @@
     </dependencies>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
 
             <!-- Add the maven exec plug-in to allow us to run a java program

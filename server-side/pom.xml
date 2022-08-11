@@ -56,6 +56,7 @@
     </dependencies>
 
     <build>
+    	<finalName>${artifactId}</finalName>
         <plugins>
             <!-- WildFly plug-in to deploy the application -->
             <plugin>
@@ -94,6 +95,9 @@
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
                     </excluded-layers>
+                    <extra-server-content-dirs>
+                        <extra-content>extra-content</extra-content>
+                    </extra-server-content-dirs>
                     <plugin-options>
                         <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
                     </plugin-options>

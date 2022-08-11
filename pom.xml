@@ -34,7 +34,15 @@
     </licenses>
 
     <properties>
-
+        <java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- other plugin versions -->
+		<version.compiler.plugin>3.1</version.compiler.plugin>
+		<version.exec.plugin>1.2.1</version.exec.plugin>
+		<version.war.plugin>2.1.1</version.war.plugin>
+		<!-- maven-compiler-plugin -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>26.1.1.Final</version.server.bom>
         <version.wildfly.datasources.galleon-pack>2.2.2.Final</version.wildfly.datasources.galleon-pack>
