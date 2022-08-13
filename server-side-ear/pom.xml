@@ -44,51 +44,39 @@
     </properties>
  
   <dependencies>
-		<dependency>
-		   <groupId>org.wildfly.quickstarts</groupId>
-		   <artifactId>ejb-remote-server-side</artifactId>
+       <dependency>
+	   <groupId>org.wildfly.quickstarts</groupId>
+	   <artifactId>ejb-remote-server-side</artifactId>
            <version>${project.version}</version>
            <type>ejb</type>
-		</dependency> 
-    </dependencies>
-
-    <build>
+	</dependency> 
+  </dependencies>
+  <build>
     	<finalName>${artifactId}</finalName>
-        <plugins>  
+        <plugins>
+            <!-- EAR plug-in -->
             <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ear-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<version>8</version>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-								<Maven-Group-ID>${project.groupId}</Maven-Group-ID>
-								<Maven-Artifact-ID>${project.artifactId}</Maven-Artifact-ID>
-								<Maven-Version>${project.version}</Maven-Version>
-								<Maven-Build-Time>${maven.build.timestamp}</Maven-Build-Time>
-								<Hudson-Build-Number>${BUILD_NUMBER}</Hudson-Build-Number>
-						</manifestEntries>
-					</archive>
-					<defaultLibBundleDir>lib</defaultLibBundleDir>
-					<modules>
-					    
-						<ejbModule>
-							<groupId>org.wildfly.quickstarts</groupId>
-							<artifactId>ejb-remote-server-side</artifactId>
-							<bundleFileName>ejb-remote-server-side.jar</bundleFileName>
-						</ejbModule>
-					</modules>
-					<!--
-					<applicationName>ejb-remote-server-side</applicationName>
-					-->
-					<finalName>${artifactId}</finalName>
-				</configuration>
-			</plugin> 
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <!-- configuring the EAR plug-in -->
+                <configuration>
+                    <!-- Tell Maven we are using Jakarta EE -->
+                    <version>8</version>
+                    <!-- Use Jakarta EE ear libraries as needed. Jakarta EE ear libraries
+                        are in easy way to package any libraries needed in the ear, and automatically
+                        have any modules (EJB-JARs and WARs) use them -->
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>                   
+                    <outputFileNameMapping>@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+                </configuration>
+            </plugin>
+            <!-- WildFly plug-in to deploy EAR -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
