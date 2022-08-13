@@ -1,0 +1,27 @@
+<ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd"
+	version="3.2">
+	<display-name>ejb-remote-server-side</display-name>
+	<interceptors>
+		<interceptor>
+			<interceptor-class>io.opentracing.contrib.ejb.OpenTracingInterceptor</interceptor-class>
+	    </interceptor>
+	    <interceptor>
+			<interceptor-class>io.opentelemetry.contib.ejb.OpenTelemetryInterceptor</interceptor-class>
+	    </interceptor>
+	    <interceptor>
+			<interceptor-class>co.elastic.apm.ejb.ApmInterceptor</interceptor-class>
+	    </interceptor>
+	</interceptors>
+	<assembly-descriptor>
+	<!-- Default interceptor that will apply to all methods for all beans in 
+			deployment -->
+		<interceptor-binding>
+			<ejb-name>*</ejb-name>
+			<interceptor-class>io.opentracing.contrib.ejb.OpenTracingInterceptor</interceptor-class>
+			<interceptor-class>io.opentelemetry.contib.ejb.OpenTelemetryInterceptor</interceptor-class>
+			<interceptor-class>co.elastic.apm.ejb.ApmInterceptor</interceptor-class>
+		</interceptor-binding>
+	</assembly-descriptor>
+</ejb-jar>
+

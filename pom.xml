@@ -122,6 +122,7 @@
      -->
     <modules>
         <module>server-side</module>
+		<module>server-side-ear</module>
         <module>client</module>
     </modules>
 
