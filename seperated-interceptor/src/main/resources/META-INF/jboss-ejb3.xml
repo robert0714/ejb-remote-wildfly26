@@ -1,0 +1,13 @@
+<jboss xmlns="http://www.jboss.com/xml/ns/javaee"
+       xmlns:jee="http://java.sun.com/xml/ns/javaee"
+       xmlns:ci ="urn:container-interceptors:1.0">
+    <jee:assembly-descriptor>
+        <ci:container-interceptors>
+            <!-- Default interceptor -->
+            <jee:interceptor-binding>
+                <ejb-name>*</ejb-name>
+                <interceptor-class>co.elastic.apm.ejb.ApmInterceptor</interceptor-class>
+            </jee:interceptor-binding>             
+        </ci:container-interceptors>
+    </jee:assembly-descriptor>
+</jboss>

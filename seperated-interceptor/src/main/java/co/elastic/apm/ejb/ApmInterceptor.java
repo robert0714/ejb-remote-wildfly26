@@ -17,7 +17,7 @@ import co.elastic.apm.api.Transaction;
  * https://github.com/elastic/apm-agent-java
  * http://www.mastertheboss.com/jbossas/wildfly-8/how-to-debug-remotely-wildfly/
  * */
-@Interceptor
+//@Interceptor
 public class ApmInterceptor implements Serializable {
 	private static final Logger log = Logger.getLogger(ApmInterceptor.class.getName());
 

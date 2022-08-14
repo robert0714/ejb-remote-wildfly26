@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="elastic-apm-ejb">
+   <!-- <feature spec="subsystem.ejb3">
+        <feature spec="subsystem.ejb3.allow-ejb-name-regex"    >
+            <param name="value" value="true"/>
+        </feature>
+        <feature spec="subsystem.ejb3.server-interceptors">
+            <feature spec="subsystem.ejb3.server-interceptors.interceptor">
+               <param name="module" value="org.wildfly.quickstarts"/>
+               <param name="class" value="co.elastic.apm.ejb.ApmInterceptor"/> 
+            </feature>
+        </feature>
+    </feature> --> 
+    
+    <packages>
+        <package name="org.wildfly.quickstarts"/>
+    </packages>
+</layer-spec>
+

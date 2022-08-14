@@ -121,9 +121,11 @@
      you can add these modules here to keep things modular.
      -->
     <modules>
-        <module>server-side</module>
+        <module>seperated-interceptor</module>
+        <module>interceptor-layer</module>
+		<module>server-side</module>
+        <module>client</module>		
 		<module>server-side-ear</module>
-        <module>client</module>
     </modules>
 
     <build>

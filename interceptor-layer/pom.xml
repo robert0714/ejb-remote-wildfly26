@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>ejb-remote</artifactId>
+        <version>26.1.1.Final</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>interceptor-layer</artifactId>  
+    <name>Quickstart: ejb-remote - interceptor-layer</name>
+    <packaging>pom</packaging>
+
+    <properties>  
+        <version.wildfly.galleon.maven.plugin>5.2.11.Final</version.wildfly.galleon.maven.plugin>
+        <version.org.wildfly>26.1.1.Final</version.org.wildfly>
+    </properties>
+
+    <dependencies>
+        <dependency>            
+		    <groupId>${project.groupId}</groupId>	
+			<artifactId>seperated-interceptor</artifactId> 
+            <version>${project.version}</version>
+            
+		</dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-galleon-pack</artifactId>
+            <version>${version.org.wildfly}</version>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.galleon-plugins</groupId>
+                <artifactId>wildfly-galleon-maven-plugin</artifactId>
+                <version>${version.wildfly.galleon.maven.plugin}</version>
+                <executions>
+                    <execution>
+                        <id>wildfly-datasources-galleon-pack-build</id>
+                        <goals>
+                            <goal>build-user-feature-pack</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <translate-to-fpl>true</translate-to-fpl>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
