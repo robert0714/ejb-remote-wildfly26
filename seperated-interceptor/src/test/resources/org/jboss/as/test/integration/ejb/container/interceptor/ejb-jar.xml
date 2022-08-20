@@ -1,0 +1,48 @@
+<ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd"
+	version="3.2">
+	<display-name>test-sute</display-name>
+	<interceptors>
+		<interceptor>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.ClassLevelContainerInterceptor</interceptor-class>
+	    </interceptor>
+	    <interceptor>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.MethodSpecificContainerInterceptor</interceptor-class>
+	    </interceptor>
+	    <interceptor>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.ContainerInterceptorOne</interceptor-class>
+	    </interceptor>
+	</interceptors>
+	<assembly-descriptor>
+	    <!-- Default interceptor that will apply to all methods for all beans in  deployment -->
+		<interceptor-binding>
+			<ejb-name>*</ejb-name>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.ContainerInterceptorOne</interceptor-class> 
+		</interceptor-binding>
+		
+		<!-- Class level container-interceptor -->
+		<interceptor-binding>
+			<ejb-name>AnotherFlowTrackingBean</ejb-name>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.ClassLevelContainerInterceptor</interceptor-class> 
+		</interceptor-binding>
+		
+		 <!-- Method specific container-interceptor -->
+		<interceptor-binding>
+			<ejb-name>AnotherFlowTrackingBean</ejb-name>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.MethodSpecificContainerInterceptor</interceptor-class> 
+			<method>
+				<method-name>echoWithMethodSpecificContainerInterceptor</method-name>
+			</method>
+		</interceptor-binding>
+		
+		<!-- Failing container-interceptor -->
+		<interceptor-binding>
+			<ejb-name>AnotherFlowTrackingBean</ejb-name>
+			<interceptor-class>org.jboss.as.test.integration.ejb.container.interceptor.FailingContainerInterceptor</interceptor-class> 
+			<method>
+				<method-name>failingEcho</method-name>
+			</method>
+		</interceptor-binding>
+		
+	</assembly-descriptor>
+</ejb-jar>

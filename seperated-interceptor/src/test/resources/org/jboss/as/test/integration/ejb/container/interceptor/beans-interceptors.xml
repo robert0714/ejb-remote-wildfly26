@@ -1,0 +1,14 @@
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                           http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"
+	version="2.0" bean-discovery-mode="all">
+	<!-- in java EE 8 they are not more important. The interceptors are always 
+		actived if you annotate them -->
+	<interceptors>
+		<class>org.jboss.as.test.integration.ejb.container.interceptor.ClassLevelContainerInterceptor</class>
+		<class>org.jboss.as.test.integration.ejb.container.interceptor.MethodSpecificContainerInterceptor</class>
+		<class>org.jboss.as.test.integration.ejb.container.interceptor.ContainerInterceptorOne</class>
+		<class>org.jboss.as.test.integration.ejb.container.interceptor.FailingContainerInterceptor</class>
+	</interceptors>
+</beans>

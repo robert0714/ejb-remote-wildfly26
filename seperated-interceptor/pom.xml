@@ -40,22 +40,28 @@
     <properties>
           <elastic-apm.version>1.33.0</elastic-apm.version>
           <failOnMissingWebXml>false</failOnMissingWebXml>
-           <elastic-apm.version>1.33.0</elastic-apm.version>
-           <version.io.opentracing>0.33.0</version.io.opentracing>    
+          <elastic-apm.version>1.33.0</elastic-apm.version>
+          <version.io.opentracing>0.33.0</version.io.opentracing>
+          <version.io.opentelemetry>1.16.0</version.io.opentelemetry>
+		  <version.jboss.bom>${project.version}</version.jboss.bom>
+          <version.wildfly>${project.version}</version.wildfly>
+          <testLogToFile>true</testLogToFile>
+		  <maven.deploy.skip>true</maven.deploy.skip>
+		  <ts.skipTests>${skipTests}</ts.skipTests>
+		  <enforcer.skip>true</enforcer.skip>
     </properties>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-bom</artifactId>
-        <version>1.16.0</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  <dependencies>
-		
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.opentelemetry</groupId>
+				<artifactId>opentelemetry-bom</artifactId>
+				<version>${version.io.opentelemetry}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+    <dependencies>		
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
             as the API is included in JBoss EAP -->
         <dependency>
@@ -69,7 +75,18 @@
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
-        </dependency> 
+        </dependency>
+        <dependency>
+		    <groupId>org.jboss.spec.javax.interceptor</groupId>
+		    <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId> 
+			<scope>provided</scope>
+		</dependency>
+		
         <dependency>
 	      <groupId>io.opentelemetry</groupId>
 	      <artifactId>opentelemetry-api</artifactId>
@@ -81,48 +98,271 @@
 			<version>${version.io.opentracing}</version>
 		</dependency>
 		<dependency>
-				<groupId>io.opentracing</groupId>
-				<artifactId>opentracing-util</artifactId>
-				<version>${version.io.opentracing}</version>
-				<scope>provided</scope>
-		</dependency>          
-        <dependency>
-		    <groupId>org.jboss.spec.javax.interceptor</groupId>
-		    <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
-            <scope>provided</scope>
+			<groupId>io.opentracing</groupId>
+			<artifactId>opentracing-util</artifactId>
+			<version>${version.io.opentracing}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+       
+       <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) 
+			JPA from JUnit/TestNG -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-	      <groupId>io.opentelemetry</groupId>
-	      <artifactId>opentelemetry-api</artifactId>
-		  <scope>provided</scope>
-	    </dependency>	    
-	    <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-logging</artifactId>
-			<scope>provided</scope>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+			<version>2.4.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.21.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-spi</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-api-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-spi-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.jboss</groupId>
+		    <artifactId>jboss-ejb-client</artifactId>
+		    <version>4.0.44.Final</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-testsuite-shared</artifactId>
+			<version>${version.jboss.bom}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>net.minidev</groupId>
+					<artifactId>json-smart</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-			<scope>provided</scope>
-        </dependency>		 
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency> 
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit5</artifactId>
+            <version>2.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>2.21.0</version>
+            <!-- If it was upgraded , you would see java.lang.NoSuchMethodError: org.mockito.internal.configuration.plugins.Plugins.getMockitoLogger()Lorg/mockito/plugins/MockitoLogger;  -->
+            <scope>test</scope>
+        </dependency> 
+        <!-- keypoint to Test temp wilfly  -->
+	         <dependency>
+	            <groupId>org.wildfly.arquillian</groupId>
+	            <artifactId>wildfly-arquillian-container-managed</artifactId>
+	            <scope>test</scope>
+	         </dependency>
     </dependencies>
-    <build> 
-		<plugins>
+    <build>
+        <plugins>
+           <plugin>
+	               <groupId>org.apache.maven.plugins</groupId>
+	               <artifactId>maven-dependency-plugin</artifactId>
+	               <executions>
+	                  <execution>
+	                     <id>unpack</id>
+	                     <phase>process-test-classes</phase>
+	                     <goals>
+	                        <goal>unpack</goal>
+	                     </goals>
+	                     <configuration>
+	                        <artifactItems>
+	                           <artifactItem>
+	                              <groupId>org.wildfly</groupId>
+	                              <artifactId>wildfly-dist</artifactId>
+	                              <version>${version.wildfly}</version>
+	                              <type>zip</type>
+	                              <overWrite>false</overWrite>
+	                              <outputDirectory>target</outputDirectory>
+	                           </artifactItem>
+	                        </artifactItems>
+	                     </configuration>
+	                  </execution>
+	               </executions>
+	            </plugin>
+	            <!-- Sets general surefire system properties. These can be overridden 
+							by inheriting plugin configurations. -->
+	            <plugin>
+	               <artifactId>maven-surefire-plugin</artifactId>
+	               <version>${version.surefire.plugin}</version>
+	               <configuration>
+	                  <skipTests>${ts.skipTests}</skipTests>
+	                  <enableAssertions>true</enableAssertions>
+	                  <!-- System properties to forked surefire JVM which runs clients. -->
+	                  <failIfNoTests>false</failIfNoTests>
+	                  <redirectTestOutputToFile>${testLogToFile}</redirectTestOutputToFile>
+	                  <systemPropertyVariables>
+	                     <jboss.home>${basedir}/target/wildfly-${version.wildfly}</jboss.home>
+	                  </systemPropertyVariables>
+	               </configuration>
+	               <executions>
+	                  <!-- Disable default-test execution. -->
+	                  <execution>
+	                     <id>default-test</id>
+	                     <goals>
+	                        <goal>test</goal>
+	                     </goals>
+	                     <phase>none</phase>
+	                  </execution>
+	                  <execution>
+	                     <id>basic-integration-default-full.surefire</id>
+	                     <phase>test</phase>
+	                     <goals>
+	                        <goal>test</goal>
+	                     </goals>
+	                     <configuration>
+	                        <!-- Tests to execute. Overriden in webProfileExclusion.profile 
+											. -->
+	                        <includes>
+	                           <include>org/jboss/as/test/integration/ejb/container/interceptor/*TestCase.java</include>
+	                        </includes>
+	                        <!-- Parameters to test cases. -->
+	                        <systemPropertyVariables combine.children="append">
+	                           <jboss.server.config.file.name>standalone-full.xml</jboss.server.config.file.name>
+	                           <jboss.options>-Dee8.preview.mode=true</jboss.options>
+	                        </systemPropertyVariables>
+	                     </configuration>
+	                  </execution>
+	               </executions>
+	            </plugin>
+		    <!-- Coverage Report -->
 			<plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifestEntries>
-                            <Multi-Release>true</Multi-Release>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<doclint>none</doclint>
+					<charset>UTF-8</charset>
+					<show>private</show>
+					<nohelp>true</nohelp>
+					<excludePackageNames>*.vo</excludePackageNames>
+				</configuration>				
+			</plugin>
 		</plugins>
-    </build>
+    </build> 
 </project>

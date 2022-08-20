@@ -46,6 +46,14 @@
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>26.1.1.Final</version.server.bom>
         <version.wildfly.datasources.galleon-pack>2.2.2.Final</version.wildfly.datasources.galleon-pack>
+		
+		   <!-- other plugin versions -->
+        <version.compiler.plugin>3.8.1</version.compiler.plugin>
+        <version.surefire.plugin>2.22.2</version.surefire.plugin>
+        <version.failsafe.plugin>2.22.2</version.failsafe.plugin>
+		<version.arquillian_jacoco>1.1.0</version.arquillian_jacoco>
+        
+        <version.arquillian.persistence>1.0.0.Alpha7</version.arquillian.persistence>
     </properties>
 
     <repositories>
@@ -133,6 +141,7 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>3.0.2.Final</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
